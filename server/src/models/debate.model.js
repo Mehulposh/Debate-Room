@@ -1,6 +1,6 @@
-import mongoose, { mongo } from 'mongoose'
+import mongoose from 'mongoose'
 
-const argumentSchema= new mongo.Schema({
+const argumentSchema= new mongoose.Schema({
     id: String,
     speaker: {
         type: mongoose.Schema.Types.ObjectId,
@@ -36,7 +36,7 @@ const argumentSchema= new mongo.Schema({
     opposingArguments: [String]
 })
 
-const speakerTimeSchema = new mongo.Schema({
+const speakerTimeSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -116,4 +116,4 @@ const debateSchema= new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Debate', debateSchema);
+export default mongoose.model('Debate', debateSchema);
