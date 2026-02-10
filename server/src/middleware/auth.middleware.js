@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/user.model';
+import User from '../models/user.model.js';
 
-const authentication = async (req, res, next) => {
+export const authentication = async (req, res, next) => {
   let token;
 
   if (
@@ -34,4 +34,3 @@ const authentication = async (req, res, next) => {
   }
 };
 
-module.exports = { authentication };
