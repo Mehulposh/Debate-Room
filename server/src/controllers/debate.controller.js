@@ -1,5 +1,5 @@
-import User from '../models/user.model'
-import Debate from '../models/debate.model'
+import User from '../models/user.model.js'
+import Debate from '../models/debate.model.js'
 
 //Create new debate
 export const NewDebate = async (req,res) => {
@@ -22,7 +22,7 @@ export const NewDebate = async (req,res) => {
         }
 
         //create new debate in db
-        const debate = await Debate.create(NewDebate)
+        const debate = await Debate.create(newDebate)
 
         const id = req.user._id
 
@@ -57,7 +57,6 @@ export const GetAllDebates = async (req,res) => {
 
 
 //Get One Debate
-
 export const GetDebateById = async(req,res) => {
     try {
         //extract debate id
