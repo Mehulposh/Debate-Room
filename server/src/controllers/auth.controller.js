@@ -1,5 +1,5 @@
-import User from '../models/user.model'
-import generateToken from '../utility/generateToken'
+import User from '../models/user.model.js'
+import generateToken from '../utility/generateToken.js'
 
 //Register new User
 export const UserRegistration = async (req,res) => {
@@ -44,7 +44,7 @@ export const UserRegistration = async (req,res) => {
 //User Login
 export const Login = async(req,res) => {
     try {
-        const {username , password} = req.body
+        const {username, email , password} = req.body
 
          // Check for user
         const user = await User.findOne({ email }).select('+password');
