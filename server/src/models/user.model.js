@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 
 
 const userSchema = new mongoose.Schema( {
-    userName: {
+    username: {
         type: String,
         required :[true, 'Please add a UserName'],
         unique:true,
@@ -57,4 +57,4 @@ userSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-module.exports = mongoose.model('User', userSchema);
+export default mongoose.model('User', userSchema);
