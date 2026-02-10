@@ -48,8 +48,11 @@ export const GetAllDebates = async (req,res) => {
         .populate('participants.user' , 'username avatar')
         .sort({createdAt: -1})
 
-
-        res.json(debates)
+        const total_debates = debates.length
+        res.json({
+            "Total Dbates":total_debates,
+            debates
+        })
     } catch (error) {
         res.status(500).json({message: error.message})
     }
