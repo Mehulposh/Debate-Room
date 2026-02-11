@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.js';
 
 const Register = () => {
+    //state variable for storing name , email and password
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -10,12 +11,18 @@ const Register = () => {
         confirmPassword: ''
     });
 
+    //state for error 
     const [error, setError] = useState('');
+    //state for loading
     const [loading, setLoading] = useState(false);
     
+    //extracting register function from auth hook
     const { register } = useAuth();
+
+    //initialising navigation hook
     const navigate = useNavigate();
 
+    //handler function for taking input
     const handleChange = (e) => {
         setFormData({
         ...formData,
@@ -23,10 +30,12 @@ const Register = () => {
         });
     };
 
+    //function for sending the user data to the backend
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
+        //password error handling
         if (formData.password !== formData.confirmPassword) {
             setError('Passwords do not match');
             return;
@@ -38,8 +47,11 @@ const Register = () => {
         }
 
         setLoading(true);
+        
+        //registering the user 
         const result = await register(formData.username, formData.email, formData.password);
         
+        //navigating to the debates page on successfull registeration
         if (result.success) {
             navigate('/debates');
         } else {
@@ -113,7 +125,7 @@ const Register = () => {
                                 name='confirmpassword'
                             />
                         </label>
-
+        
                         <button 
                             type='submit'
                             className=  {`${loading ? "btn btn-disabled" : "btn btn-primary"} text-lg`}
