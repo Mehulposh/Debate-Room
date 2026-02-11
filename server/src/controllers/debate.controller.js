@@ -46,7 +46,7 @@ export const GetAllDebates = async (req,res) => {
         const debates = await Debate.find()
         .populate('creator','username avatar')
         .populate('participants.user' , 'username avatar')
-        .sort({createdAt: -1})
+        .sort({createdAt: 1})
 
         const total_debates = debates.length
         res.json({
@@ -184,7 +184,8 @@ export const UpdateDebate = async(req,res) =>{
     try {
         //extract debate id from params
         const id = req.params.id
-
+        console.log(id);
+        
         //get the debate from the db
         const debate = await Debate.findById(id)
 
@@ -200,10 +201,11 @@ export const UpdateDebate = async(req,res) =>{
         
         //extract status from req body
         const {status} = req.body
-
+        console.log(status);
+        
         //updating the status in debate json
         debate.status = status
-
+        
         //checking the status of the debate 
         if (status === 'active' && !debate.startedAt) {
             debate.startedAt = new Date();
@@ -213,6 +215,8 @@ export const UpdateDebate = async(req,res) =>{
             debate.endedAt = new Date();
         }
 
+        console.log(debate);
+        
         //saving the debate 
         await debate.save();
 

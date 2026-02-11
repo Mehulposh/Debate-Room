@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 
+//schema for argument
 const argumentSchema= new mongoose.Schema({
     id: String,
     speaker: {
@@ -25,17 +26,12 @@ const argumentSchema= new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    fallacies: [{
-        type: {
-        type: String
-        },
-        confidence: Number,
-        explanation: String
-    }],
     supportingArguments: [String],
     opposingArguments: [String]
 })
 
+
+//schema for speaker time
 const speakerTimeSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -52,6 +48,8 @@ const speakerTimeSchema = new mongoose.Schema({
         duration: Number
     }]
 })
+
+//schema for debate
 const debateSchema= new mongoose.Schema({
     title: {
         type: String,
