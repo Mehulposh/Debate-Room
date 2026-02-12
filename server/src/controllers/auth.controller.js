@@ -44,7 +44,7 @@ export const UserRegistration = async (req,res) => {
 //User Login
 export const Login = async(req,res) => {
     try {
-        const {username, email , password} = req.body
+        const { email , password} = req.body
 
          // Check for user
         const user = await User.findOne({ email }).select('+password');
@@ -55,6 +55,8 @@ export const Login = async(req,res) => {
                 username: user.username,
                 email: user.email,
                 avatar: user.avatar,
+                debatesParticipated: user.debatesParticipated,
+                createdAt: user.createdAt,
                 token: generateToken(user._id)
             });
         } else {
