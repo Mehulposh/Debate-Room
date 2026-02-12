@@ -1,46 +1,8 @@
 import { MessageSquare , Users, Clock } from "lucide-react"
 import { formatDistanceToNow } from 'date-fns';
 
-const debate = {
-  "_id": {
-    "$oid": "698ad3b1c211d8fcacb0ba87"
-  },
-  "title": "Debate title : Use of AI in Coding",
-  "topic": "Use of AI in Coding",
-  "creator": {
-    "$oid": "698acff36612e76c49f2f701"
-  },
-  "participants": [
-    {
-      "user": {
-        "$oid": "698acff36612e76c49f2f701"
-      },
-      "username": "Mehul Poshattiwar",
-      "side": "pro",
-      "_id": {
-        "$oid": "698ad3b1c211d8fcacb0ba88"
-      },
-      "joinedAt": {
-        "$date": "2026-02-10T06:44:01.569Z"
-      }
-    }
-  ],
-  "status": "waiting",
-  "timeLimit": 300,
-  "rules": {
-    "allowInterruptions": false,
-    "maxArgumentLength": 500
-  },
-  "speakerTimes": [],
-  "arguments": [],
-  "createdAt": {
-    "$date": "2026-02-10T06:44:01.570Z"
-  },
-  "__v": 0
-}
 
-
-const DebateCard = () => {
+const DebateCard = ({debate}) => {
   return (
     <div className="card-body w-full ">
         <div className="flex flex-col items-center gap-3">
