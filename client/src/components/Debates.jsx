@@ -72,7 +72,7 @@ const Debates = () => {
     return(
         <div className='flex flex-col justify-center items-center gap-5 p-3'>
             <div className='flex justify-around items-center mt-5 w-screen'>
-                <h1 className='text-4xl underline text-primary font-semibold'>
+                <h1 className='text-4xl underline text-accent font-semibold'>
                     All Debates
                 </h1>
 
@@ -94,13 +94,13 @@ const Debates = () => {
             />
 
             <div className="min-w-3xl mx-auto ">
-            <div className=" grid grid-cols-1 md:grid-cols-1 gap-3 w-full mt-5">
+            <div className=" flex flex-col gap-3 w-full mt-5">
                 {debates.map((debate) => (
                     
                     <div 
                         key={debate._id}
                         onClick={() => navigate(`/debate/${debate._id}`)}
-                        className="card w-full bg-base-100 card-md shadow-sm border cursor-pointer"
+                        className="card w-full bg-base-100  card-md shadow-sm cursor-pointer"
                     >
                         <DebateCard 
                             debate={debate}
