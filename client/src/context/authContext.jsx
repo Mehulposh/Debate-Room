@@ -4,6 +4,8 @@ import axios from 'axios';
 //create a context
 const AuthContext = createContext();
 
+//base url
+const BASE_URI = 'http://localhost:8080/api/auth/'
 
 //provider function
 export const AuthProvider = ({children}) => {
@@ -32,7 +34,7 @@ export const AuthProvider = ({children}) => {
 
     const login = async (email,password) => {
         try {
-            const{data} = await axios.post('/api/auth/login', { email, password });
+            const{data} = await axios.post(`${BASE_URI}login`, { email, password });
             console.log(data);
             
             localStorage.setItem('token', data.token);
@@ -52,7 +54,7 @@ export const AuthProvider = ({children}) => {
 
     const register = async (username , email, password) => {
         try {
-            const {data} = await axios.post('/api/auth/register'    , {
+            const {data} = await axios.post(`${BASE_URI}register`    , {
                     username,
                     email,
                     password
