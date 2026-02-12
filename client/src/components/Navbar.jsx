@@ -16,7 +16,7 @@ const Navbar = () => {
   };
 
   return(
-    <nav className='p-5 w-screen  bg-neutral sticky top-0 z-50'>
+    <nav className='p-5 w-screen  bg-neutral sticky top-0 z-50  glass '>
         <div className='flex items-center justify-between '>
             <Link to='/' className='flex items-center gap-2 btn btn-primary'>
                 <MessageSquare size={28}/>

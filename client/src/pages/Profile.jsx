@@ -11,10 +11,10 @@ const Profile = () => {
   }
 
   return (
-    <div className='flex justify-center w-screen '>
-    <div className="card w-full max-w-2xl border border-primary mt-5" >
+    <div className='flex justify-center w-screen h-screen '>
+    <div className="card w-full max-w-2xl h-fit border border-primary mt-5" >
       <div className="card-body space-y-3">
-        <h1 className='card-title flex justify-center text-2xl text-primary font-semibold underline '>Your Profile</h1>
+        <h1 className='card-title flex justify-center text-2xl text-secondary font-semibold underline '>Your Profile</h1>
 
         <div className="flex justify-center">
           <div className="avatar">
