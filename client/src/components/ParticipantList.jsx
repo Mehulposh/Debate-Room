@@ -15,7 +15,7 @@ const ParticipantsList = ({ participants, speakerTimes }) => {
   };
   
   return (
-    <div className='border p-2 '>
+    <div className=' p-2 '>
       <h3 className='flex items-center gap-3 mb-3 font-semibold text-accent'>
         <Users size={24} />
         Participants ({participants.length})
