@@ -6,7 +6,7 @@ import ArgumentMapper from '../components/ArgumentMapper';
 import Timer from '../components/Timmer';
 import ArgumentForm from '../components/ArgumentForm';
 import ParticipantsList from '../components/ParticipantList.jsx';
-import { Play, Pause, Square, Users, AlertCircle } from 'lucide-react';
+import {  AlertCircle } from 'lucide-react';
 import api from '../api/axios.js';
 
 const DebateRoom = () => {
@@ -171,7 +171,7 @@ const DebateRoom = () => {
   const totalUserTime = userSpeakerTime ? userSpeakerTime?.totalTime / 1000 : 0;
 
   return (
-    <div className="px-10 m-0 max-w-screen">
+    <div className="px-10 m-0 max-w-screen ">
       <div className="px-4 mt-5">
         <div className='flex items-center justify-between mb-3'>
           <div className='space-y-2'>

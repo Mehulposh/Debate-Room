@@ -84,11 +84,11 @@ const ArgumentMapper = ({ arguments: args }) => {
 
   useEffect(() => {
     setNodes(initialNodes);
-  }, [initialNodes]);
+  }, [initialNodes,setNodes]);
 
   useEffect(() => {
     setEdges(initialEdges);
-  }, [initialEdges]);
+  }, [initialEdges,setEdges]);
 
   return (
     <div style={{ height: '600px', background: '#f8f9fa', borderRadius: '8px' }}>
