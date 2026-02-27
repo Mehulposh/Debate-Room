@@ -275,7 +275,7 @@ const DebateRoom = () => {
       </div>
 
       {joined && debate.status === 'active' && (
-        <ArgumentForm onSubmit={handleAddArgument} />
+        <ArgumentForm onSubmit={handleAddArgument} argumentsList={debate.arguments}/>
       )}
     </div>
   );
