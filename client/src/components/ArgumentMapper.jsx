@@ -7,61 +7,59 @@ import ReactFlow, {
   useEdgesState
 } from 'reactflow';
 import 'reactflow/dist/style.css';
+import ArgumentNode from "./ArgumentNode";
 import { AlertTriangle } from 'lucide-react';
+
+
+const nodeTypes = {
+  argumentNode: ArgumentNode
+};
 
 const ArgumentMapper = ({ arguments: args }) => {
   const initialNodes = useMemo(() => {
-    return args.map((arg, index) => ({
-      id: arg.id,
-      type: 'default',
-      data: { 
-        label: (
-          <div style={{ padding: '10px', minWidth: '200px' }}>
-            <div style={{ 
-              fontSize: '11px', 
-              fontWeight: 'bold', 
-              color: '#667eea',
-              marginBottom: '5px'
-            }}>
-              {arg.speakerName}
-            </div>
-            <div style={{ fontSize: '13px', marginBottom: '8px' }}>
-              {arg.content}
-            </div>
-            <div style={{ 
-              display: 'inline-block',
-              padding: '2px 8px',
-              borderRadius: '12px',
-              fontSize: '10px',
-              fontWeight: 'bold',
-              background: arg.type === 'claim' ? '#e3f2fd' : 
-                         arg.type === 'evidence' ? '#e8f5e9' :
-                         arg.type === 'rebuttal' ? '#fff3e0' : '#fce4ec',
-              color: arg.type === 'claim' ? '#1976d2' : 
-                     arg.type === 'evidence' ? '#388e3c' :
-                     arg.type === 'rebuttal' ? '#f57c00' : '#c2185b'
-            }}>
-              {arg.type}
-            </div>
-            
-          </div>
-        )
-      },
-      position: arg.position || { 
-        x: 100 + (index % 3) * 300, 
-        y: 100 + Math.floor(index / 3) * 200 
-      },
-      style: {
-        background: 'white',
-        border: arg.fallacies && arg.fallacies.length > 0 
-          ? '2px solid #ffc107' 
-          : '2px solid #667eea',
-        borderRadius: '8px',
-        padding: 0,
-        width: 'auto'
-      }
-    }));
-  }, [args]);
+  if (!args.length) return [];
+
+  // Build map of children
+  const childrenMap = {};
+  args.forEach(arg => {
+    if (!childrenMap[arg.parentId || 'root']) {
+      childrenMap[arg.parentId || 'root'] = [];
+    }
+    childrenMap[arg.parentId || 'root'].push(arg);
+  });
+
+  const nodes = [];
+  const levelSpacingY = 200;
+  const siblingSpacingX = 300;
+
+  //Recursively Assign Positions
+  const traverse = (parentId = 'root', depth = 0, offsetX = 0) => {
+    const children = childrenMap[parentId] || [];
+
+    children.forEach((child, index) => {
+      const x = offsetX + index * siblingSpacingX;
+      const y = depth * levelSpacingY;
+
+      nodes.push({
+        id: child.id,
+        type: 'argumentNode',
+        data: {
+          speakerName: child.speakerName,
+          content: child.content,
+          type: child.type,
+        },
+        position: { x, y },
+        
+      });
+
+      traverse(child.id, depth + 1, x);
+    });
+  };
+
+  traverse();
+
+  return nodes;
+}, [args]); 
 
   const initialEdges = useMemo(() => {
     return args
@@ -91,10 +89,11 @@ const ArgumentMapper = ({ arguments: args }) => {
   }, [initialEdges,setEdges]);
 
   return (
-    <div style={{ height: '600px', background: '#f8f9fa', borderRadius: '8px' }}>
+    <div  className='rounded-xl bg-white h-160' >
       <ReactFlow
         nodes={nodes}
         edges={edges}
+        nodeTypes={nodeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         fitView
