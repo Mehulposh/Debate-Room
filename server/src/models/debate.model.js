@@ -1,5 +1,24 @@
 import mongoose from 'mongoose'
 
+//fallacy schema
+const fallacySchema = new mongoose.Schema({
+  type: {
+    type: String,
+    required: true
+  },
+  confidence: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 1
+  },
+  explanation: {
+    type: String,
+    required: true
+  }
+}, { _id: false });
+
+
 //schema for argument
 const argumentSchema= new mongoose.Schema({
     id: String,
@@ -26,6 +45,7 @@ const argumentSchema= new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    fallacies: [fallacySchema],
     supportingArguments: [String],
     opposingArguments: [String]
 })
