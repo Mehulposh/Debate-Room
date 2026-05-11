@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 /**
  * Detect logical fallacies using Google Gemini
@@ -53,9 +53,9 @@ DO NOT use markdown.
 DO NOT include explanations outside JSON.
 Return ONLY the JSON array.
 `;
-
+    const MODEL = 'gemini-2.5-flash';
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         contents: [
           {
@@ -68,7 +68,7 @@ Return ONLY the JSON array.
         ],
         generationConfig: {
           temperature: 0.2,
-          maxOutputTokens: 1000
+          maxOutputTokens: 2048
         }
       },
       {
@@ -89,8 +89,7 @@ Return ONLY the JSON array.
       .trim();
 
     console.log(
-      '📄 Gemini response:',
-      cleanContent.substring(0, 200) + '...'
+      '📄 FULL GEMINI RESPONSE:\n', cleanContent
     );
 
     // Parse JSON
@@ -135,4 +134,4 @@ Return ONLY the JSON array.
   }
 };
 
-module.exports = { detectFallacies };
+export  { detectFallacies };
