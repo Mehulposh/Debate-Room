@@ -1,5 +1,6 @@
 import User from '../models/user.model.js'
 import Debate from '../models/debate.model.js'
+import {detectFallacies} from '../aiService/aiService.js'
 
 //Create new debate
 export const NewDebate = async (req,res) => {
@@ -149,6 +150,24 @@ export const NewArgument = async (req,res)=> {
         //extract the argument content from the req body
         const {content , type , parentId , position} = req.body
 
+        // -------------------------------
+        // AI FALLACY DETECTION
+        // -------------------------------
+
+        let detectedFallacies = [];
+
+        try {
+            detectedFallacies = await detectFallacies(
+                content,
+                debate.topic
+            );
+        } catch (aiError) {
+            console.error(
+                '❌ Fallacy detection failed:',
+                aiError.message
+            );
+        }
+
         //create a new argument object 
         const argument = {
             id: `arg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -158,7 +177,8 @@ export const NewArgument = async (req,res)=> {
             type: type || 'claim',
             parentId: parentId || null,
             position: position || { x: 0, y: 0 },
-            timestamp: new Date()
+            timestamp: new Date(),
+            fallacies: detectedFallacies
         };
 
         //push the argument in the arguments array
@@ -172,7 +192,13 @@ export const NewArgument = async (req,res)=> {
         .populate('arguments.speaker', 'username avatar');
 
         //send the populated data to the frontend
-        res.status(201).json(populatedDebate)
+         // send response
+        res.status(201).json({
+            success: true,
+            argument,
+            fallacies: detectedFallacies,
+            debate: populatedDebate
+        });
     } catch (error) {
         res.status(500).json({message: error.message})
     }   
