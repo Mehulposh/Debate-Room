@@ -5,7 +5,7 @@ import axios from 'axios';
 const AuthContext = createContext();
 
 //base url
-const BASE_URI = 'http://localhost:8080/api/auth/'
+const BASE_URI = 'http://localhost:8000/api/auth/'
 
 //provider function
 export const AuthProvider = ({children}) => {
@@ -35,7 +35,7 @@ export const AuthProvider = ({children}) => {
     const login = async (email,password) => {
         try {
             const{data} = await axios.post(`${BASE_URI}login`, { email, password });
-            console.log(data);
+            // console.log(data);
             
             localStorage.setItem('token', data.token);
             localStorage.setItem('userInfo', JSON.stringify(data));
@@ -60,7 +60,7 @@ export const AuthProvider = ({children}) => {
                     password
                 });
             
-            console.log(data);
+            // console.log(data);
             localStorage.setItem('token', data.token);
             localStorage.setItem('userInfo', JSON.stringify(data));
             axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
