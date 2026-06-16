@@ -36,10 +36,10 @@ const Register = () => {
         setError('');
 
         //password error handling
-        if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match');
-            return;
-        }
+        // if (formData.password !== formData.confirmPassword) {
+        //     setError('Passwords do not match');
+        //     return;
+        // }
 
         if (formData.password.length < 8) {
             setError('Password must be at least 8 characters');
@@ -120,7 +120,7 @@ const Register = () => {
                                 placeholder='Enter your passowrd again'
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
-                                required
+                                
                                 type='password'
                                 name='confirmpassword'
                             />
