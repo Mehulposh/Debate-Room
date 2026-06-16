@@ -2,50 +2,54 @@ import { MessageSquare , Users, Clock } from "lucide-react"
 import { formatDistanceToNow } from 'date-fns';
 
 
-const DebateCard = ({debate}) => {
-  console.log('Debate id', debate._id);
-  console.log("creator:", debate.creator);
-  if(!debate) return null
+const DebateCard = ({ debate }) => {
+  if (!debate) return null;
   return (
-    <div className="card-body w-full ">
-        <div className="flex flex-col items-center gap-3">
-            <h3 className="card-title font-bold text-xl text-secondary underline">{debate.title}</h3>
-            <p className="text- md text-primary">
-                Status : {' '}
-                <span className="font-semibold text-accent ">
-                    {debate.status}
-                </span>
-            </p>
-        </div>
-        <p className="text-lg font-semibold text-primary">{debate.topic}</p>
+    <div className='p-4 w-full'>
 
-        <div className="flex justify-around items-center mt-3" >
-              <span className="flex flex-col gap-2 text-success font-semibold" >
-                <Users size={16} />
-                {debate.participants?.length || 0}
-              </span>
-              <span  className="flex flex-col gap-2 text-secondary font-semibold" >
-                <MessageSquare size={16} />
-                {debate.arguments?.length || 0}
-              </span>
-              <span  className="flex flex-col gap-2 text-accent font-semibold" >
-                <Clock size={16} />
-                {debate.createdAt
-                    ? formatDistanceToNow(new Date(debate.createdAt), {
-                        addSuffix: true,
-                    })
-                    : "Unknown time"
-                }
-              </span>
-        </div>
+      {/* Title + Status */}
+      <div className='flex flex-col items-center gap-1 mb-3'>
+        <h3 className='font-bold text-lg text-secondary underline text-center leading-snug'>
+          {debate.title}
+        </h3>
+        <p className='text-sm text-primary'>
+          Status:{' '}
+          <span className='font-semibold text-accent'>{debate.status}</span>
+        </p>
+      </div>
 
-        <div >
-            <small className=" text-info">
-                Created by : <strong className="text-warning">{debate.creator?.username || 'ddgwgwgrwrg'}</strong>
-            </small>
-        </div>
+      {/* Topic */}
+      {debate.topic && (
+        <p className='text-sm font-semibold text-primary text-center mb-3'>
+          {debate.topic}
+        </p>
+      )}
+
+      {/* Meta — fixed 3-column grid so nothing clips */}
+      <div className='grid grid-cols-3 items-center mb-3'>
+        <span className='flex flex-col items-center gap-1 text-success font-semibold text-xs'>
+          <Users size={15} />
+          {debate.participants?.length || 0}
+        </span>
+        <span className='flex flex-col items-center gap-1 text-secondary font-semibold text-xs'>
+          <MessageSquare size={15} />
+          {debate.arguments?.length || 0}
+        </span>
+        <span className='flex flex-col items-center gap-1 text-accent font-semibold text-xs text-center'>
+          <Clock size={15} />
+          {debate.createdAt
+            ? formatDistanceToNow(new Date(debate.createdAt), { addSuffix: true })
+            : 'Unknown'}
+        </span>
+      </div>
+
+      {/* Creator */}
+      <small className='text-info text-xs'>
+        Created by:{' '}
+        <strong className='text-warning'>{debate.creator?.username || 'Unknown'}</strong>
+      </small>
     </div>
-  )
-}
+  );
+};
 
-export default DebateCard
+export default DebateCard;
