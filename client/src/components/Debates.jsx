@@ -26,7 +26,7 @@ const Debates = () => {
         try {
             setLoading(true)
             const { data } = await api.get('/api/debates');
-            console.log('fetched debates',data);
+            // console.log('fetched debates',data);
             
             setDebates(data.debates);
         } catch (error) {
@@ -37,7 +37,7 @@ const Debates = () => {
         }
     }
 
-    console.log('Debates', debates);
+    // console.log('Debates', debates);
     
 
     //calling getch debates function in useEffect
@@ -50,7 +50,7 @@ const Debates = () => {
         e.preventDefault();
         try {
             const { data } = await api.post('/api/debates', formData);
-            console.log('new debate',data);
+            // console.log('new debate',data);
             
             navigate(`/debate/${data._id}`);
         } catch (error) {
@@ -69,54 +69,47 @@ const Debates = () => {
         return <div className="loading">Loading debates...</div>;
     }
    
-    return(
-        <div className='flex flex-col justify-center items-center gap-5 p-3'>
-            <div className='flex justify-around items-center mt-5 w-screen'>
-                <h1 className='text-4xl underline text-accent font-semibold'>
-                    All Debates
-                </h1>
+    return (
+  <div className='flex flex-col w-full items-center gap-5 min-h-screen py-6 px-4'>
+    
+    <div className='flex flex-wrap justify-between items-center gap-4 w-full max-w-2xl'>
+      <h1 className='text-3xl sm:text-4xl underline text-accent font-semibold'>
+        All Debates
+      </h1>
+      <button
+        onClick={() => setShowCreateForm(!showCreateForm)}
+        className='btn btn-primary btn-sm sm:btn-md'
+      >
+        <Plus size={20} />
+        Create New Debate
+      </button>
+    </div>
 
-                <button 
-                    onClick={()=> setShowCreateForm(!showCreateForm)}
-                    className='btn btn-primary'
-                >
-                    <Plus size={20}/>
-                    Create New Debate
-                </button>
-            </div>
+    <DebateForm
+      handleChange={handleChange}
+      isOpen={showCreateForm}
+      onClose={() => setShowCreateForm(false)}
+      handleCreateDebate={handleCreateDebate}
+      formdata={formData}
+    />
 
-            <DebateForm 
-                handleChange={handleChange}
-                isOpen={showCreateForm}
-                onClose={() => setShowCreateForm(false)}
-                handleCreateDebate={handleCreateDebate}
-                formdata={formData}
-            />
+    <div className='w-full max-w-2xl'>
+      <div className='flex flex-col gap-3'>
+        {debates.map((debate) => (
+          <div
+            key={debate._id}
+            onClick={() => navigate(`/debate/${debate._id}`)}
+            className='card w-full bg-base-100 shadow-sm cursor-pointer hover:shadow-md transition-shadow border border-base-300'
+          >
+            <DebateCard debate={debate} />
+          </div>
+        ))}
+      </div>
+    </div>
 
-            <div className="min-w-3xl mx-auto ">
-            <div className=" flex flex-col gap-3 w-full mt-5">
-                {debates.map((debate) => (
-                    
-                    <div 
-                        key={debate._id}
-                        onClick={() => navigate(`/debate/${debate._id}`)}
-                        className="card w-full bg-base-100  card-md shadow-sm cursor-pointer"
-                    >
-                        <DebateCard 
-                            debate={debate}
-                        />
-                    </div>
-                ))}
-            </div>
-            </div>
-
-            {debates.length === 0 && !showCreateForm && (
-                <EmptyMessage 
-
-                />
-            )}
-        </div>
-    )
+    {debates.length === 0 && !showCreateForm && <EmptyMessage />}
+  </div>
+);
 }
 
 export default Debates
