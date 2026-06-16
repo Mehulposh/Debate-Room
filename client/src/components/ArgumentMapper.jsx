@@ -28,7 +28,7 @@ const ArgumentMapper = ({ arguments: args }) => {
     childrenMap[arg.parentId || 'root'].push(arg);
   });
 
-  const nodes = [];
+  const nodes = [];//nodes of the tree
   const levelSpacingY = 200;
   const siblingSpacingX = 300;
 
@@ -89,7 +89,7 @@ const ArgumentMapper = ({ arguments: args }) => {
   }, [initialEdges,setEdges]);
 
   return (
-    <div  className='rounded-xl bg-white h-160' >
+    <div  className='rounded-xl bg-white h-64 sm:h-96 lg:h-[500px]' >
       <ReactFlow
         nodes={nodes}
         edges={edges}
