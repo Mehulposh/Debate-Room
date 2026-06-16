@@ -61,7 +61,7 @@ const DebateRoom = () => {
     setTimerStart(timestamp);
 
   });
-  console.log(timerStart);
+  // console.log(timerStart);
   
   socket.on('timer-stopped', () => {
     setIsTimerRunning(false);
@@ -171,114 +171,106 @@ const DebateRoom = () => {
   const totalUserTime = userSpeakerTime ? userSpeakerTime?.totalTime / 1000 : 0;
 
   return (
-    <div className="px-10 m-0 max-w-screen ">
-      <div className="px-4 mt-5">
-        <div className='flex items-center justify-between mb-3'>
-          <div className='space-y-2'>
-            <h1 className='text-2xl font-semibold text-secondary underline'>{debate.title}</h1>
-            <p className='text-lg font-sans text-warning' >{debate.topic}</p>
-          </div>
-          <span className={`badge badge-outline badge-${debate.status}  text-lg `} >
-            {debate.status}
-          </span>
+  <div className="w-full max-w-5xl mx-auto px-3 sm:px-6 lg:px-10">
+    
+    {/* Header */}
+    <div className="mt-5 mb-3">
+      <div className='flex flex-wrap items-start justify-between gap-2 mb-3'>
+        <div className='space-y-1'>
+          <h1 className='text-xl sm:text-2xl font-semibold text-secondary underline'>
+            {debate.title}
+          </h1>
+          <p className='text-base sm:text-lg font-sans text-warning'>{debate.topic}</p>
         </div>
+        <span className={`badge badge-outline badge-${debate.status} text-sm sm:text-base`}>
+          {debate.status}
+        </span>
+      </div>
 
-        {!joined && (
-          <div className="alert alert-error" >
-            <AlertCircle size={20} />
-            <div>
-              <strong>You haven't joined this debate yet.</strong>
-              <div >
-                <button onClick={() => handleJoinDebate('pro')} className="btn btn-success">
-                  Join as Pro
-                </button>
-                <button onClick={() => handleJoinDebate('con')} className="btn btn-danger">
-                  Join as Con
-                </button>
-                <button onClick={() => handleJoinDebate('neutral')} className="btn btn-secondary">
-                  Join as Neutral
-                </button>
-              </div>
+      {/* Join alert */}
+      {!joined && (
+        <div className="alert alert-error mb-3">
+          <AlertCircle size={20} />
+          <div className="flex flex-col gap-2">
+            <strong>You haven't joined this debate yet.</strong>
+            <div className="flex flex-wrap gap-2">
+              <button onClick={() => handleJoinDebate('pro')} className="btn btn-success btn-sm">
+                Join as Pro
+              </button>
+              <button onClick={() => handleJoinDebate('con')} className="btn btn-error btn-sm">
+                Join as Con
+              </button>
+              <button onClick={() => handleJoinDebate('neutral')} className="btn btn-secondary btn-sm">
+                Join as Neutral
+              </button>
             </div>
           </div>
-        )}
-
-        {isCreator && (
-          <div className="flex gap-3 mb-5 flex-wrap justify-start">
-
-            {debate.status === "waiting" && (
-              <button
-                onClick={() => handleStatusChange("active")}
-                className="btn btn-success"
-              >
-                Start Debate
-              </button>
-            )}
-
-            {debate.status === "active" && (
-              <>
-                <button
-                  onClick={() => handleStatusChange("paused")}
-                  className="btn btn-warning"
-                >
-                  Pause Debate
-                </button>
-
-                <button
-                  onClick={() => handleStatusChange("completed")}
-                  className="btn btn-error"
-                >
-                  End Debate
-                </button>
-              </>
-            )}
-
-            {debate.status === "paused" && (
-              <button
-                onClick={() => handleStatusChange("active")}
-                className="btn btn-success"
-              >
-                Resume Debate
-              </button>
-            )}
-
-          </div>
-        )}
-
-      </div>
-
-      <div className="grid grid-cols-[1fr_2fr] gap-5 p-2 mb-5 w-full">
-        <div>
-          <Timer 
-            currentTime={currentTime}
-            isRunning={isTimerRunning}
-            totalTime={totalUserTime}
-            timeLimit={debate.timeLimit}
-            onStart={handleStartTimer}
-            onStop={handleStopTimer}
-            canControl={joined && debate.status === 'active'}
-          />
-          
-          <ParticipantsList 
-            participants={debate.participants}
-            speakerTimes={debate.speakerTimes}
-          />
         </div>
+      )}
 
-        <div className="card">
-          <h3 className='mb-5 text-lg font-semibold'>Argument Map</h3>
-          <ArgumentMapper 
-            arguments={debate.arguments}
-            debateId={id}
-          />
+      {/* Creator controls */}
+      {isCreator && (
+        <div className="flex gap-2 mb-4 flex-wrap">
+          {debate.status === "waiting" && (
+            <button onClick={() => handleStatusChange("active")} className="btn btn-success btn-sm sm:btn-md">
+              Start Debate
+            </button>
+          )}
+          {debate.status === "active" && (
+            <>
+              <button onClick={() => handleStatusChange("paused")} className="btn btn-warning btn-sm sm:btn-md">
+                Pause Debate
+              </button>
+              <button onClick={() => handleStatusChange("completed")} className="btn btn-error btn-sm sm:btn-md">
+                End Debate
+              </button>
+            </>
+          )}
+          {debate.status === "paused" && (
+            <button onClick={() => handleStatusChange("active")} className="btn btn-success btn-sm sm:btn-md">
+              Resume Debate
+            </button>
+          )}
         </div>
-      </div>
-
-      {joined && debate.status === 'active' && (
-        <ArgumentForm onSubmit={handleAddArgument} argumentsList={debate.arguments}/>
       )}
     </div>
-  );
+
+    {/* Main grid — stacks on mobile, side-by-side on lg+ */}
+    <div className="flex flex-col lg:grid lg:grid-cols-[1fr_2fr] gap-4 mb-5">
+      
+      {/* Left column */}
+      <div className="flex flex-col gap-4">
+        <Timer
+          currentTime={currentTime}
+          isRunning={isTimerRunning}
+          totalTime={totalUserTime}
+          timeLimit={debate.timeLimit}
+          onStart={handleStartTimer}
+          onStop={handleStopTimer}
+          canControl={joined && debate.status === 'active'}
+        />
+        <ParticipantsList
+          participants={debate.participants}
+          speakerTimes={debate.speakerTimes}
+        />
+      </div>
+
+      {/* Argument map — full width on mobile */}
+      <div className="card p-3 sm:p-4">
+        <h3 className='mb-3 text-base sm:text-lg font-semibold'>Argument Map</h3>
+        <ArgumentMapper
+          arguments={debate.arguments}
+          debateId={id}
+        />
+      </div>
+    </div>
+
+    {/* Argument form */}
+    {joined && debate.status === 'active' && (
+      <ArgumentForm onSubmit={handleAddArgument} argumentsList={debate.arguments} />
+    )}
+  </div>
+);
 };
 
 export default DebateRoom;
