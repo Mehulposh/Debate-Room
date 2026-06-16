@@ -16,11 +16,17 @@ Db_Connection();
 const server = http.createServer(app);
 
 // Socket.IO
+const socketAllowedOrigins = [
+  process.env.CLIENT_URL || "http://localhost:5174",
+  "http://localhost:5173",
+  "http://frontend:5173"
+].map((o) => (o ? o.replace(/^\"|\"$/g, "") : o));
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
-    methods: ["GET", "POST", "PUT" , "DELETE" ]
-  }
+    origin: socketAllowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  },
 });
 
 // Setup socket logic
