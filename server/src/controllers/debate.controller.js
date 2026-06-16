@@ -210,7 +210,7 @@ export const UpdateDebate = async(req,res) =>{
     try {
         //extract debate id from params
         const id = req.params.id
-        console.log(id);
+        // console.log(id);
         
         //get the debate from the db
         const debate = await Debate.findById(id)
@@ -227,7 +227,7 @@ export const UpdateDebate = async(req,res) =>{
         
         //extract status from req body
         const {status} = req.body
-        console.log(status);
+        // console.log(status);
         
         //updating the status in debate json
         debate.status = status
@@ -241,7 +241,7 @@ export const UpdateDebate = async(req,res) =>{
             debate.endedAt = new Date();
         }
 
-        console.log(debate);
+        // console.log(debate);
         
         //saving the debate 
         await debate.save();
