@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { MessageSquare } from 'lucide-react';
 
 const ArgumentForm = ({ onSubmit, argumentsList = [] }) => {
@@ -8,9 +8,7 @@ const ArgumentForm = ({ onSubmit, argumentsList = [] }) => {
     parentId: ''
   });
 
-  const rootArguments = useMemo(() => {
-    return argumentsList.filter(arg => !arg.parentId);
-  }, [argumentsList]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
