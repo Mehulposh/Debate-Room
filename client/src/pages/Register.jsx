@@ -113,7 +113,7 @@ const Register = () => {
                                 name='password'
                             />
                         </label>
-                        <label className='space-y-2 '>
+                        {/* <label className='space-y-2 '>
                             <p className='text-lg font-semibold'>Confirm Password :</p>
                             <input 
                                 className='input'
@@ -124,7 +124,7 @@ const Register = () => {
                                 type='password'
                                 name='confirmpassword'
                             />
-                        </label>
+                        </label> */}
         
                         <button 
                             type='submit'
