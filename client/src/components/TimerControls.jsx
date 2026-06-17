@@ -9,7 +9,7 @@ const TimerControls = ({ isRunning, onStart, onStop }) => {
           className="btn btn-success flex-1 flex items-center justify-center gap-2"
         >
           <Play size={20} />
-          Start Speaking
+          Start Writing
         </button>
       ) : (
         <button
@@ -17,7 +17,7 @@ const TimerControls = ({ isRunning, onStart, onStop }) => {
           className="btn btn-error flex-1 flex items-center justify-center gap-2"
         >
           <Square size={20} />
-          Stop Speaking
+          Stop Writing
         </button>
       )}
     </div>
