@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo , useCallback } from 'react';
 import ReactFlow, { 
   Background, 
   Controls, 
@@ -8,14 +8,13 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import ArgumentNode from "./ArgumentNode";
-import { AlertTriangle } from 'lucide-react';
-
-
-const nodeTypes = {
-  argumentNode: ArgumentNode
-};
 
 const ArgumentMapper = ({ arguments: args }) => {
+  const memoizedNodeTypes = useMemo(() => ({
+      argumentNode: ArgumentNode,
+    }),
+    []
+  );
   const initialNodes = useMemo(() => {
   if (!args.length) return [];
 
@@ -88,12 +87,24 @@ const ArgumentMapper = ({ arguments: args }) => {
     setEdges(initialEdges);
   }, [initialEdges,setEdges]);
 
+  const getNodeColor = useCallback((node) => {
+      const arg = args.find(a => a.id === node.id);
+      return arg?.fallacies?.length > 0
+        ? '#ffc107'
+        : '#667eea';
+    },
+    [args]
+  );
+
+  console.log('nodeTypes ref', memoizedNodeTypes);
+
   return (
     <div  className='rounded-xl bg-white h-64 sm:h-96 lg:h-[500px]' >
+    
       <ReactFlow
         nodes={nodes}
         edges={edges}
-        nodeTypes={nodeTypes}
+        nodeTypes={memoizedNodeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         fitView
@@ -101,10 +112,7 @@ const ArgumentMapper = ({ arguments: args }) => {
         <Background />
         <Controls />
         <MiniMap 
-          nodeColor={(node) => {
-            const arg = args.find(a => a.id === node.id);
-            return arg?.fallacies?.length > 0 ? '#ffc107' : '#667eea';
-          }}
+          nodeColor={getNodeColor}
         />
       </ReactFlow>
       
